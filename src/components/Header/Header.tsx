@@ -1,19 +1,34 @@
 import React from 'react';
 import { Search } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
+import { useAuth } from "../../contexts/AuthContext";
+import { auth } from "../../firebase";
 
 export const Header: React.FC = () => {
+  const { user } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img
-              src="/rectangle-8968.png"
-              alt="Trovia Logo"
-              className="h-8 w-auto sm:h-10"
-            />
+            <Link to="/">
+              <img
+                src="/rectangle-8968.png"
+                alt="Trovia Logo"
+                className="h-8 w-auto sm:h-10"
+              />
+            </Link>
           </div>
 
           {/* Search Bar */}
@@ -32,17 +47,35 @@ export const Header: React.FC = () => {
 
           {/* Auth Buttons */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              className="hidden sm:inline-flex"
-            >
-              Sign In
-            </Button>
-            <Button
-              className="bg-[#3b1c4d] hover:bg-[#281f2c] text-white"
-            >
-              Sign Up
-            </Button>
+            {user ? (
+              <>
+                <span className="text-sm text-gray-700">{user.email}</span>
+                <Button
+                  onClick={handleSignOut}
+                  className="bg-[#3b1c4d] hover:bg-[#281f2c] text-white"
+                >
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button
+                    variant="outline"
+                    className="hidden sm:inline-flex"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button
+                    className="bg-[#3b1c4d] hover:bg-[#281f2c] text-white"
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
