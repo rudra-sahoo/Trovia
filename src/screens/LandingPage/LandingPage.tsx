@@ -10,6 +10,7 @@ import { Testimonials } from '../../components/Testimonials/Testimonials';
 import { Contact } from '../../components/Contact/Contact';
 import { FAQ } from '../../components/FAQ/FAQ';
 import { Footer } from '../../components/Footer/Footer';
+import { FeaturedCategories } from '../../components/FeaturedCategories/FeaturedCategories';
 
 export const LandingPage = (): JSX.Element => {
   const scrollToTop = () => {
@@ -21,6 +22,7 @@ export const LandingPage = (): JSX.Element => {
       <Header />
       <main>
         <Hero />
+        <FeaturedCategories />
         <Features />
         <Services />
         <About />

@@ -11,7 +11,7 @@ const RootLayout = () => {
   return (
     <>
       <Header />
-      <main className="pt-16">
+      <main> {/* Remove the pt-16 padding */}
         <Outlet />
       </main>
     </>
