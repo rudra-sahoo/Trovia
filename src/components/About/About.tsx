@@ -20,7 +20,7 @@ export const About: React.FC = () => {
         <div className="mt-16">
           <div className="relative rounded-xl overflow-hidden">
             <img
-              src="/rectangle-8975.png"
+              src="/card2.png"
               alt="About Us"
               className="w-full h-auto object-cover"
             />
