@@ -8,6 +8,10 @@ import { Account } from "./pages/Account/Account";
 import Authentication from "./pages/Authentication/Authentication";
 import Contact from './pages/Contact';
 import AuthCallback from './pages/Authentication/AuthCallback';
+// Import new pages
+import PrivacyPolicy from './pages/Legal/PrivacyPolicy';
+import TermsOfService from './pages/Legal/TermsOfService';
+import HelpCenter from './pages/Support/HelpCenter';
 
 const RootLayout = () => {
   return (
@@ -23,34 +27,48 @@ const RootLayout = () => {
 const router = createBrowserRouter(
   [
     {
+      path: "/auth/callback",
+      element: <AuthCallback />,
+    },
+    {
+      path: "/",
       element: <RootLayout />,
       children: [
         {
-          path: "/",
+          index: true,
           element: <LandingPage />,
         },
         {
-          path: "/auth",
+          path: "auth",
           element: <Authentication />,
         },
         {
-          path: "/contact",
+          path: "contact",
           element: <Contact />,
         },
         {
-          path: "/account",
+          path: "account",
           element: <Account />,
         },
-        // Add a catch-all route for client-side routing in production
+        // Legal and support pages with explicit paths
+        {
+          path: "privacy",
+          element: <PrivacyPolicy />,
+        },
+        {
+          path: "terms",
+          element: <TermsOfService />,
+        },
+        {
+          path: "help",
+          element: <HelpCenter />,
+        },
+        // Keep this last - catch-all route for client-side routing in production
         {
           path: "*",
           element: <LandingPage />,
         }
       ],
-    },
-    {
-      path: "/auth/callback",
-      element: <AuthCallback />,
     },
   ],
   {

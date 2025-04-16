@@ -14,6 +14,10 @@ export const Header: React.FC = () => {
     setIsSidebarOpen(false);
   };
 
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
@@ -59,7 +63,7 @@ export const Header: React.FC = () => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Menu</h2>
             <button
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={closeSidebar}
               className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
             >
               <X className="h-6 w-6" />
@@ -67,9 +71,13 @@ export const Header: React.FC = () => {
           </div>
 
           <nav className="space-y-4">
+            <Link to="/" className="block py-2 text-gray-600 hover:text-gray-900" onClick={closeSidebar}>
+              Home
+            </Link>
+            
             {isAuthenticated ? (
               <>
-                <Link to="/account" className="block py-2 text-gray-600 hover:text-gray-900">
+                <Link to="/account" className="block py-2 text-gray-600 hover:text-gray-900" onClick={closeSidebar}>
                   My Account
                 </Link>
                 <button
@@ -84,20 +92,31 @@ export const Header: React.FC = () => {
               <Link 
                 to="/auth" 
                 className="block py-2 text-gray-600 hover:text-gray-900"
-                onClick={() => setIsSidebarOpen(false)}
+                onClick={closeSidebar}
               >
                 Sign In
               </Link>
             )}
+            
             <div className="border-t border-gray-200 my-4"></div>
-            <Link to="/privacy" className="block py-2 text-gray-600 hover:text-gray-900">
+            
+            <Link to="/contact" className="block py-2 text-gray-600 hover:text-gray-900" onClick={closeSidebar}>
+              Contact Us
+            </Link>
+            
+            <Link to="/help" className="block py-2 text-gray-600 hover:text-gray-900" onClick={closeSidebar}>
+              Help Center
+            </Link>
+            
+            <div className="border-t border-gray-200 my-4"></div>
+            <h3 className="font-medium text-gray-900">Legal</h3>
+            
+            <Link to="/privacy" className="block py-2 text-gray-600 hover:text-gray-900" onClick={closeSidebar}>
               Privacy Policy
             </Link>
-            <Link to="/terms" className="block py-2 text-gray-600 hover:text-gray-900">
+            
+            <Link to="/terms" className="block py-2 text-gray-600 hover:text-gray-900" onClick={closeSidebar}>
               Terms of Service
-            </Link>
-            <Link to="/help" className="block py-2 text-gray-600 hover:text-gray-900">
-              Help Center
             </Link>
           </nav>
         </div>
@@ -106,7 +125,7 @@ export const Header: React.FC = () => {
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={() => setIsSidebarOpen(false)}
+          onClick={closeSidebar}
         />
       )}
     </>
