@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { useAuth } from '../contexts/AuthContext';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { Alert, AlertDescription } from '../components/ui/alert';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: 'success' | 'error' | null;
@@ -20,14 +17,10 @@ const Contact: React.FC = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    email: user?.email || '',
+    email: '',
     subject: '',
     message: ''
   });
-
-  const generateMessageId = () => {
-    return Math.floor(1000 + Math.random() * 9000).toString(); // Generates 4-digit number
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,15 +28,8 @@ const Contact: React.FC = () => {
     setSubmitStatus({ type: null, message: null });
 
     try {
-      const db = getFirestore();
-      const messageId = generateMessageId();
-      const messageRef = doc(db, 'users', user?.uid || 'anonymous', 'contact', messageId);
-      
-      await setDoc(messageRef, {
-        ...formData,
-        timestamp: new Date(),
-        status: 'pending'
-      });
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       setSubmitStatus({
         type: 'success',
@@ -51,12 +37,12 @@ const Contact: React.FC = () => {
       });
 
       // Reset form
-      setFormData(prev => ({
-        ...prev,
+      setFormData({
         name: '',
+        email: '',
         subject: '',
         message: ''
-      }));
+      });
 
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -68,27 +54,6 @@ const Contact: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Sign in Required</CardTitle>
-            <CardDescription>Please sign in to contact us</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button 
-              onClick={() => navigate('/auth')}
-              className="w-full bg-[#3b1c4d] hover:bg-[#281f2c] text-white"
-            >
-              Sign In
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4">
@@ -128,8 +93,9 @@ const Contact: React.FC = () => {
                 <Input
                   type="email"
                   value={formData.email}
-                  disabled
-                  className="bg-gray-50"
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  placeholder="Your email"
                 />
               </div>
               <div>

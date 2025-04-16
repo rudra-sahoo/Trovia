@@ -1,17 +1,19 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 import { LandingPage } from "./screens/LandingPage";
 import { Header } from "./components/Header/Header";
-import Authentication from "./pages/Authentication";
-import { AuthProvider } from "./contexts/AuthContext";
+import { Account } from "./pages/Account/Account";
+import Authentication from "./pages/Authentication/Authentication";
 import Contact from './pages/Contact';
+import AuthCallback from './pages/Authentication/AuthCallback';
 
 const RootLayout = () => {
   return (
     <>
       <Header />
-      <main> {/* Remove the pt-16 padding */}
+      <main>
         <Outlet />
       </main>
     </>
@@ -35,12 +37,19 @@ const router = createBrowserRouter(
           path: "/contact",
           element: <Contact />,
         },
+        {
+          path: "/account",
+          element: <Account />,
+        },
       ],
+    },
+    {
+      path: "/auth/callback",
+      element: <AuthCallback />,
     },
   ],
   {
-    future: {
-      v7_startTransition: true,
+    future: { 
       v7_relativeSplatPath: true,
     },
     basename: "/",
