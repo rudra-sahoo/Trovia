@@ -41,6 +41,11 @@ const router = createBrowserRouter(
           path: "/account",
           element: <Account />,
         },
+        // Add a catch-all route for client-side routing in production
+        {
+          path: "*",
+          element: <LandingPage />,
+        }
       ],
     },
     {
